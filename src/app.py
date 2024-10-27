@@ -36,3 +36,8 @@ def add_category():
     category = { "id": category_id, **category_data }
     categories[category_id] = category
     return category
+
+@app.get("/category/<category_id>")
+def get_category(category_id):
+    category = categories[category_id]
+    return category
