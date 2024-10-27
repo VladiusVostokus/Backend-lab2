@@ -12,3 +12,7 @@ def create_user():
     user = { "id": user_id, **user_data }
     users[user_id] = user
     return user
+
+@app.get("/users")
+def get_users():
+    return list(users.values())
