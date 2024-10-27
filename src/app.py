@@ -1,9 +1,14 @@
-from flask import Flask
+import uuid
+from flask import Flask, request
 
 app = Flask(__name__)
 
+users = {}
+
 @app.post("/user")
-def hello_world():
-    return {
-        "status":"200 OK",
-    }
+def create_user():
+    user_data = request.get_json()
+    user_id = uuid.uuid4().hex
+    user = { "id": user_id, **user_data }
+    users[user_id] = user
+    return user
