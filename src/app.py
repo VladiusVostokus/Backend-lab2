@@ -16,3 +16,8 @@ def create_user():
 @app.get("/users")
 def get_users():
     return list(users.values())
+
+@app.get("/user/<user_id>")
+def get_user(user_id):
+    user = users[user_id]
+    return user
