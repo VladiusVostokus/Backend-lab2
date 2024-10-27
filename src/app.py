@@ -41,3 +41,9 @@ def add_category():
 def get_category(category_id):
     category = categories[category_id]
     return category
+
+@app.delete("/category/<category_id>")
+def delete_category(category_id):
+    category = categories[category_id]
+    del categories[category_id]
+    return category
