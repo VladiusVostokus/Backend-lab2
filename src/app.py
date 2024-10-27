@@ -2,7 +2,7 @@ from flask import Flask
 
 app = Flask(__name__)
 
-@app.route("/")
+@app.post("/user")
 def hello_world():
     return {
         "status":"200 OK",
