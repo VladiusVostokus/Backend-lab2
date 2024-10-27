@@ -4,6 +4,7 @@ from flask import Flask, request
 app = Flask(__name__)
 
 users = {}
+categories = {}
 
 @app.post("/user")
 def create_user():
@@ -27,3 +28,11 @@ def delete_user(user_id):
     user = users[user_id]
     del users[user_id]
     return user
+
+@app.post("/category")
+def add_category():
+    category_data = request.get_json()
+    category_id = uuid.uuid4().hex
+    category = { "id": category_id, **category_data }
+    categories[category_id] = category
+    return category
