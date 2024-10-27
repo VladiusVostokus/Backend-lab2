@@ -21,3 +21,9 @@ def get_users():
 def get_user(user_id):
     user = users[user_id]
     return user
+
+@app.delete("/user/<user_id>")
+def delete_user(user_id):
+    user = users[user_id]
+    del users[user_id]
+    return user
