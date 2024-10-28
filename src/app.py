@@ -60,3 +60,8 @@ def create_record():
     record = { "id": record_id, **record_data, "date": date }
     records[record_id] = record
     return record
+
+@app.get("/record/<record_id>")
+def get_record(record_id):
+    record = records[record_id]
+    return record
