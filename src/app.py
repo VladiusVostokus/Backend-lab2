@@ -76,9 +76,39 @@ def delete_record(record_id):
 def get_record_by_category_and_user():
     user_id = request.args.get('user_id')
     category_id = request.args.get('category_id')
+
+    if (user_id != None and category_id != None):
+        result = find_by_user_and_category(user_id,category_id)
+        return result  
+    if (user_id != None):
+        result = find_by_user(user_id)
+        return result  
+    if (category_id != None):
+        result = find_by_category(category_id)
+        return result
+    return "No parameters provided", 400
+
+
+def find_by_user_and_category(user_id, category_id):
     result = {}
     for id in records:
         record = records[id]
         if record["user_id"] == user_id and record["category_id"] == category_id:
             result = record
+    return result
+
+def find_by_user(user_id):
+    result = []
+    for id in records:
+        record = records[id]
+        if record["user_id"] == user_id:
+            result.append(record)
+    return result
+
+def find_by_category(category_id):
+    result = []
+    for id in records:
+        record = records[id]
+        if record["category_id"] == category_id:
+            result.append(record)
     return result
