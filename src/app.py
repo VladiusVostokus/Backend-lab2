@@ -65,3 +65,9 @@ def create_record():
 def get_record(record_id):
     record = records[record_id]
     return record
+
+@app.delete("/record/<record_id>")
+def delete_record(record_id):
+    record = records[record_id]
+    del records[record_id]
+    return record
