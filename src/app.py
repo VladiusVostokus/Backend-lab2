@@ -71,3 +71,14 @@ def delete_record(record_id):
     record = records[record_id]
     del records[record_id]
     return record
+
+@app.get("/record")
+def get_record_by_category_and_user():
+    user_id = request.args.get('user_id')
+    category_id = request.args.get('category_id')
+    result = {}
+    for id in records:
+        record = records[id]
+        if record["user_id"] == user_id and record["category_id"] == category_id:
+            result = record
+    return result
