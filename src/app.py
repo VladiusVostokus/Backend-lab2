@@ -1,10 +1,13 @@
 import uuid
 from flask import Flask, request
+from datetime import datetime
+
 
 app = Flask(__name__)
 
 users = {}
 categories = {}
+records = {}
 
 @app.post("/user")
 def create_user():
@@ -47,3 +50,13 @@ def delete_category(category_id):
     category = categories[category_id]
     del categories[category_id]
     return category
+
+@app.post("/record")
+def create_record():
+    record_data = request.get_json()
+    record_id = uuid.uuid4().hex
+    now = datetime.now()
+    date = now.isoformat('T')
+    record = { "id": record_id, **record_data, "date": date }
+    records[record_id] = record
+    return record
