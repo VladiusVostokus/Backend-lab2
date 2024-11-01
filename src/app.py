@@ -54,7 +54,11 @@ def delete_category(category_id):
 @app.post("/record")
 def create_record():
     record_data = request.get_json()
-    record_id = uuid.uuid4().hex
+    if (record_data["user_id"] not in users):
+        return "Incorrect user id: user does not exist", 400
+    if (record_data["category_id"] not in categories):
+        return "Incorrect category id: category does not exist", 400
+    record_id = uuid.uuid4().hex 
     now = datetime.now()
     date = now.isoformat('T')
     record = { "id": record_id, **record_data, "date": date }
@@ -93,7 +97,7 @@ def find_by_user_and_category(user_id, category_id):
     result = {}
     for id in records:
         record = records[id]
-        if record["user_id"] == user_id and record["category_id"] == category_id:
+        if record["user_id"] == user_id or record["category_id"] == category_id:
             result = record
     return result
 
