@@ -1,36 +1,14 @@
 import uuid
 from flask import Flask, request
 from datetime import datetime
+from users import users,users_bp
 
 
 app = Flask(__name__)
 
-users = {}
 categories = {}
 records = {}
-
-@app.post("/user")
-def create_user():
-    user_data = request.get_json()
-    user_id = uuid.uuid4().hex
-    user = { "id": user_id, **user_data }
-    users[user_id] = user
-    return user
-
-@app.get("/users")
-def get_users():
-    return list(users.values())
-
-@app.get("/user/<user_id>")
-def get_user(user_id):
-    user = users[user_id]
-    return user
-
-@app.delete("/user/<user_id>")
-def delete_user(user_id):
-    user = users[user_id]
-    del users[user_id]
-    return user
+app.register_blueprint(users_bp)
 
 @app.post("/category")
 def add_category():
