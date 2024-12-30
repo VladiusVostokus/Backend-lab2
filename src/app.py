@@ -9,4 +9,4 @@ app.register_blueprint(users_bp)
 app.register_blueprint(categories_bp)
 app.register_blueprint(records_bp)
 
-
+# lab3
