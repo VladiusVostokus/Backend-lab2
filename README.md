@@ -1,6 +1,8 @@
 ## Backedn Lab2 - Basic REST API development
 Коваленко Владислав Юрійович ІМ-24
 
+Variant: number in group % 3 = 6 % 3 = 0 - Accounting for income
+
 # Usage
 > [!IMPORTANT]
 > To use code, you need Python on your pc
