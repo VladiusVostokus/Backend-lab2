@@ -12,5 +12,5 @@ class RecordSchema(Schema):
     id = fields.Str(dump_only=True)
     user_id = fields.Str(required=False)
     category_id = fields.Str(required=False)
-    date = fields.Date()
-    expence = fields.Number()
+    date = fields.DateTime(dump_only=True)
+    expence = fields.Number(dump_only=True)
