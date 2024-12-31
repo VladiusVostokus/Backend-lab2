@@ -25,13 +25,17 @@ def create_record():
 @records_bp.get("/record/<record_id>")
 def get_record(record_id):
     record = records[record_id]
-    return record
+    if record:
+        return record
+    return "Record not found", 404
 
 @records_bp.delete("/record/<record_id>")
 def delete_record(record_id):
     record = records[record_id]
-    del records[record_id]
-    return record
+    if record:
+        del records[record_id]
+        return record
+    return "Record not found", 404
 
 @records_bp.get("/record")
 def get_record_by_category_and_user():
@@ -40,13 +44,22 @@ def get_record_by_category_and_user():
 
     if (user_id != None and category_id != None):
         result = find_by_user_and_category(user_id,category_id)
-        return result  
+        if result == {}:
+            return "Record not found", 404
+        return result 
+     
     if (user_id != None):
         result = find_by_user(user_id)
+        if result == []:
+            return "Record not found", 404
         return result  
+    
     if (category_id != None):
         result = find_by_category(category_id)
-        return result
+        if result == []:
+            return "Record not found", 404
+        return result 
+    
     return "No parameters provided", 400
 
 
