@@ -15,10 +15,14 @@ def add_category():
 @categories_bp.get("/category/<category_id>")
 def get_category(category_id):
     category = categories[category_id]
-    return category
+    if category:
+        return category
+    return "Category not found", 404
 
 @categories_bp.delete("/category/<category_id>")
 def delete_category(category_id):
     category = categories[category_id]
-    del categories[category_id]
-    return category
+    if category:
+        del categories[category_id]
+        return category
+    return "Category not found", 404
