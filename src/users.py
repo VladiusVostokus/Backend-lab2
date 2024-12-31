@@ -19,11 +19,15 @@ def get_users():
 @users_bp.get("/user/<user_id>")
 def get_user(user_id):
     user = users[user_id]
-    return user
-    
+    if user:
+        return user
+    return "User not found", 404
+
 @users_bp.delete("/user/<user_id>")
 def delete_user(user_id):
     user = users[user_id]
-    del users[user_id]
-    return user
+    if user:
+        del users[user_id]
+        return user
+    return "User not found", 404
     
