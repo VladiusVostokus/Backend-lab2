@@ -5,6 +5,8 @@ from records import records_bp
 
 app = Flask(__name__)
 
+app.config.from_pyfile('config.py', silent=True)
+
 app.register_blueprint(users_bp)
 app.register_blueprint(categories_bp)
 app.register_blueprint(records_bp)
