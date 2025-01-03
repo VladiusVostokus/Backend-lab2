@@ -7,7 +7,7 @@ class UserModel(db.Model):
     __tablename__ = "user"
     id = db.Column(db.UUID(),primary_key=True)
     name = db.Column(db.String(64), unique = True, nullable = False)
-
+    account_id = db.Column(db.UUID(), unique = True, nullable = False)
     record = db.relationship("RecordModel", back_populates="user", lazy="dynamic")
     account = db.relationship("AccountModel", back_populates="user")
 

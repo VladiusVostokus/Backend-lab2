@@ -1,12 +1,13 @@
 import uuid
 from flask import Blueprint, request
 from marshmallow import ValidationError
-from schemas import PlainUserSchema
+from schemas import PlainUserSchema, AccountSchema
 from models import db, UserModel, AccountModel
 
 users_bp = Blueprint('users', __name__)
 user_schema = PlainUserSchema()
 user_list_schema = PlainUserSchema(many=True)
+account_schema = AccountSchema()
 
 @users_bp.post("/user")
 def create_user():
@@ -16,12 +17,27 @@ def create_user():
         return err.messages, 400
 
     user_id = uuid.uuid4()
-    account = AccountModel(id=uuid.uuid4(), user_id=user_id, balance="0")
-    user = UserModel(id=user_id, name=user_data['name'], account=[account]) 
+    account_id = uuid.uuid4()
+    account = AccountModel(id=account_id, user_id=user_id, balance="0")
+    user = UserModel(id=user_id, name=user_data['name'], account_id=account_id) 
     db.session.add(account)
     db.session.add(user)
     db.session.commit()
     return user_schema.dump(user)
+
+@users_bp.put("/account/<account_id>")
+def top_up_account(account_id):
+    account = AccountModel.query.get(account_id)
+    if not account:
+        return "Account not fount", 404
+    data = request.get_json()
+    balance = data['balance']
+    if not balance:
+        return "Balance required", 400
+    
+    account.balance = float(account.balance) + float(balance)
+    db.session.commit()
+    return account_schema.dump(account)
 
 @users_bp.get("/users")
 def get_users():
