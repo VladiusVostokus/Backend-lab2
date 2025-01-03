@@ -1,4 +1,4 @@
-## Backedn Lab2 - Basic REST API development
+## Backedn Lab2-3 - Basic REST API development
 Коваленко Владислав Юрійович ІМ-24
 
 Variant: number in group % 3 = 6 % 3 = 0 - Accounting for income
