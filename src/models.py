@@ -20,18 +20,18 @@ class CategoryModel(db.Model):
 class RecordModel(db.Model):
     __tablename__ = "record"
     id = db.Column(db.UUID(),primary_key = True)
-    user_id = db.Column(db.UUID(), db.ForeignKey("user.id"), unique = False, nullable = False)
-    category_id = db.Column(db.UUID(), db.ForeignKey("category.id"), unique = False, nullable = False)
+    user_id = db.Column(db.UUID(), db.ForeignKey("user.id", ondelete = 'SET NULL'), unique = False, nullable = True)
+    category_id = db.Column(db.UUID(),db.ForeignKey('category.id', ondelete = 'SET NULL'), unique = False, nullable = True)
     date = db.Column(db.TIMESTAMP, server_default=func.now())
-    expence = db.Column(db.Float(precision=2), unique = False, nullable = False)
+    expense = db.Column(db.String(64), unique = False, nullable = False)
 
     user = db.relationship("UserModel", back_populates="record")
     category = db.relationship("CategoryModel", back_populates="record")
 
-class AccountModel(db.Model):
-    __tablename__ = "account"
-    id = db.Column(db.UUID(),primary_key = True)
-    user_id = db.Column(db.UUID(), db.ForeignKey("user.id"), unique = False, nullable = False)
-    balance = db.Column(db.Float(precision=2), unique = False, nullable = False)
+#class AccountModel(db.Model):
+#    __tablename__ = "account"
+ #   id = db.Column(db.UUID(),primary_key = True)
+ #   user_id = db.Column(db.UUID(), db.ForeignKey("user.id"), unique = False, nullable = False)
+ #   balance = db.Column(db.Float(precision=2), unique = False, nullable = False)
 
-    user = db.relationship("UserModel", back_populates="account")
+  #  user = db.relationship("UserModel", back_populates="account")

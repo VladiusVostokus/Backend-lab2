@@ -13,9 +13,9 @@ class RecordSchema(Schema):
     user_id = fields.Str(required=False)
     category_id = fields.Str(required=False)
     date = fields.DateTime(dump_only=True)
-    expense = fields.Str(required=True)
+    expense = fields.Str(required=False)
 
-class AccountSchema(Schema):
-    id = fields.Str(dump_only=True)
-    user_id = fields.Str(required=False)
-    balance = fields.Str(dump_only=True)
+# class AccountSchema(Schema):
+#    id = fields.Str(dump_only=True)
+#    user_id = fields.Str(required=False)
+#    balance = fields.Str(dump_only=True)
