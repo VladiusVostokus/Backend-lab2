@@ -64,13 +64,13 @@ def get_record_by_category_and_user():
      
     if (user_id != None):
         result = find_by_user(user_id)
-        if not result:
+        if result == []:
             return "Record not found", 404
         return record_list_schema.dump(result)
     
     if (category_id != None):
         result = find_by_category(category_id)
-        if not result:
+        if result == []:
             return "Record not found", 404
         return record_list_schema.dump(result)
     
