@@ -12,13 +12,6 @@ app.config.from_pyfile('./config.py', silent=True)
 db.init_app(app)
 migrate = Migrate(app, db)
 
-with app.app_context():
-    db.session.query(RecordModel).delete()
-    db.session.query(CategoryModel).delete()
-    db.session.query(AccountModel).delete()
-    db.session.query(UserModel).delete()
-    db.session.commit()
-
 app.register_blueprint(users_bp)
 app.register_blueprint(categories_bp)
 app.register_blueprint(records_bp)
