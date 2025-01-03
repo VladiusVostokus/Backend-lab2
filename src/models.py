@@ -27,3 +27,11 @@ class RecordModel(db.Model):
 
     user = db.relationship("UserModel", back_populates="record")
     category = db.relationship("CategoryModel", back_populates="record")
+
+class AccountModel(db.Model):
+    __tablename__ = "account"
+    id = db.Column(db.UUID(),primary_key = True)
+    user_id = db.Column(db.UUID(), db.ForeignKey("user.id"), unique = False, nullable = False)
+    balance = db.Column(db.Float(precision=2), unique = False, nullable = False)
+
+    user = db.relationship("UserModel", back_populates="account")
