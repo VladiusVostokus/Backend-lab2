@@ -2,7 +2,7 @@ import uuid
 from flask import Blueprint, request
 from marshmallow import ValidationError
 from schemas import PlainUserSchema
-from models import db, UserModel
+from models import db, UserModel, AccountModel
 
 users_bp = Blueprint('users', __name__)
 user_schema = PlainUserSchema()
@@ -14,7 +14,11 @@ def create_user():
         user_data = user_schema.load(request.get_json())
     except ValidationError as err:
         return err.messages, 400
-    user = UserModel(id=uuid.uuid4(), **user_data)
+
+    user_id = uuid.uuid4()
+    account = AccountModel(id=uuid.uuid4(), user_id=user_id, balance="0")
+    user = UserModel(id=user_id, name=user_data['name'], account=[account]) 
+    db.session.add(account)
     db.session.add(user)
     db.session.commit()
     return user_schema.dump(user)
@@ -35,6 +39,8 @@ def get_user(user_id):
 def delete_user(user_id):
     user = UserModel.query.get(user_id)
     if user:
+        account = AccountModel.query.filter_by(user_id=user_id).first()
+        db.session.delete(account)
         db.session.delete(user)
         db.session.commit()
         return user_schema.dump(user)
