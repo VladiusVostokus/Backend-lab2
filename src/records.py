@@ -3,7 +3,7 @@ from datetime import datetime
 from flask import Blueprint, request
 from marshmallow import ValidationError
 from schemas import RecordSchema
-from models import db, UserModel, CategoryModel, RecordModel
+from models import db, UserModel, CategoryModel, RecordModel, AccountModel
 
 records_bp = Blueprint('records', __name__)
 record_schema = RecordSchema()
@@ -23,6 +23,11 @@ def create_record():
     category = CategoryModel.query.get(record_data["category_id"])
     if not category:
         return "Incorrect category_id: category does not exist", 400
+    
+    account = AccountModel.query.get(user.account_id)
+    if not account:
+        return "User has no account", 400
+    
     record = RecordModel(
         id=uuid.uuid4().hex,
         user_id=record_data["user_id"],
@@ -30,6 +35,10 @@ def create_record():
         date=datetime.now(),
         **{key: value for key, value in record_data.items() if key not in ["user_id", "category_id"]}
     )
+    expence = record_data["expense"]
+    new_balance = float(account.balance) - float(expence)
+    
+    account.balance = str(new_balance)
     db.session.add(record)
     db.session.commit()
 
